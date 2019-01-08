@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Письма</title>
+    <div th:replace="fragments/headTag :: header"></div>
+    <link rel="stylesheet" href="/css/home.css"/>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+            <p class="display-4"><span class="fa fa-envelope-open"></span> Письма</p>
+            <p><a class="btn btn-outline-primary" onclick="add()"><span class="fa fa-plus"></span> Новое</a></p>
+        </div>
+        <div class="col-sm-4">
+            <h5 class="text-right">
+                <span th:text="${fullName}"></span>(id:<span id="authorId" th:text="${authorId}"></span>)<br/>
+                <small class="text-muted">
+                    <span th:text="${date.toString()}"></span><br/>
+                    <a href="/logout">Выйти <span class="fa fa-sign-out"></span></a>
+                </small>
+            </h5>
+            <p class="text-right" th:if="${#strings.contains(#strings.toString(authUser.getAuthorities()), 'ADMIN')}">
+                <a href="/admin">Пользователи <span class="fa fa-users"></span></a>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-responsive-sm table-hover" id="mails">
+                <thead class="bg-light">
+                <tr>
+                    <th scope="row">Номер</th>
+                    <th scope="row">Дата</th>
+                    <th scope="row">Получатель</th>
+                    <th scope="row">Тема</th>
+                    <th scope="row">Исполнитель</th>
+                    <th scope="row">Проверено</th>
+                    <th scope="row"></th>
+                    <th scope="row"></th>
+                    <th scope="row"></th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+    </div>
+    <div class="row">
+        <div class="col-sm-6 mt-5">
+            <div class="card bg-light mb-3">
+                <div class="card-header">Новое письмо на бланке предприятия</div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Для создания письма на бланке предприятия, пожалуйста, заполните все
+                        поля этой <a href="#" onclick="add()"><b>формы</b></a>.<br>
+                        <span class='fa fa-file-pdf-o'></span> Для получения PDF-документа необходимо дождаться проверки
+                        секретаря.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 mt-5">
+            <div class="card">
+                <div class="card-body">
+                    <ul>
+                        <li>Приказы</li>
+                        <li>Командировочные</li>
+                        <li>Протоколы совещаний</li>
+                        <li>...</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row bg-light pt-5 mt-5">
+        <div class="col-md-12">
+            <div th:replace="fragments/footer :: footer"></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" id="newMail">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitle">Новое письмо</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="detailsForm">
+                    <input type="hidden" id="id"
+                           name="id"/>
+                    <div class="form-row ">
+                        <div class="form-group col-md-9">
+                            <label class="col-form-label-sm" for="mailNumber">Номер</label>
+                            <input type="text" class="form-control form-control-sm" id="mailNumber"
+                                   name="mailNumber"/>
+                            <label class="col-form-label-sm" for="createDate">Дата</label>
+                            <input type="date" class="form-control form-control-sm" id="createDate"
+                                   name="createDate" required=""/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label-sm" for="mailRecipient">Получатель</label>
+                        <textarea rows="3" class="form-control form-control-sm" id="mailRecipient"
+                                  placeholder="Получатель" name="mailRecipient" required=""></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-form-label-sm" for="mailSubject">Тема письма</label>
+                        <input type="text" class="form-control form-control-sm" id="mailSubject"
+                               placeholder="Тема письма" name="mailSubject" required=""/>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label-sm" for="mailText">Текст письма</label>
+                        <textarea rows="3" class="form-control form-control-sm" id="mailText"
+                                  placeholder="Текст письма" name="mailText" required=""></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label-sm"> Обязательно в первой строке должен быть заголовок,<br/> далее
+                            с новой строки идет текст письма
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <span class="fa fa-close"></span>
+                    Отмена
+                </button>
+                <button type="button" class="btn btn-primary" onclick="save()">
+                    <span class="fa fa-check"></span>
+                    Сохранить
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/common.js"></script>
+</body>
+</html>

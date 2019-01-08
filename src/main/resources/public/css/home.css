@@ -1,0 +1,7 @@
+.fa {
+    cursor: pointer;
+}
+
+tr[data-author="true"] {
+    color: #007bff;
+}
