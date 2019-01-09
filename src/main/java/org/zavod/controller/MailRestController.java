@@ -30,11 +30,15 @@ import java.util.List;
 @RequestMapping(value = "/rest/mails")
 public class MailRestController {
 
-    @Autowired
-    private MailService mailService;
+    private final MailService mailService;
+
+    private final AuthorService authorService;
 
     @Autowired
-    private AuthorService authorService;
+    public MailRestController(MailService mailService, AuthorService authorService) {
+        this.mailService = mailService;
+        this.authorService = authorService;
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MailEntity> getAll() {

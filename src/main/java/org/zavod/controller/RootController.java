@@ -20,7 +20,6 @@ public class RootController {
 
     private final AuthorService authorService;
 
-    @Autowired
     public RootController(AuthorService authorService) {
         this.authorService = authorService;
     }

@@ -21,8 +21,8 @@ import java.io.IOException;
 
 public class GeneratePdfReport {
 
-    public static final String FONT = "./src/main/resources/public/fonts/times.ttf";
-    public static final String LOGO = "./src/main/resources/public/images/logo.png";
+    private static final String FONT = "./src/main/resources/static/fonts/times.ttf";
+    private static final String LOGO = "./src/main/resources/static/images/logo.png";
 
     public static ByteArrayInputStream mailsReport(MailEntity mail) throws IOException {
 

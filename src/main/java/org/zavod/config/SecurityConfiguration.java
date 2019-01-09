@@ -22,8 +22,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
 
-    private UserDetailsService userDetailsService;
-
     private final DataSource dataSource;
 
     @Autowired

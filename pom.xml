@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>mail</artifactId>
-	<groupId>ru.oao-bmz</groupId>
+	<artifactId>mails</artifactId>
+	<groupId>org.zavod</groupId>
 
-	<name>Spring Boot Simple Sample</name>
+	<name>Spring Boot 2 project</name>
 	<description>Spring Boot Simple Sample</description>
 	<version>1.0-SNAPSHOT</version>
 	<url>http://projects.spring.io/spring-boot/</url>
@@ -95,12 +95,12 @@
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>kernel</artifactId>
-			<version>7.1.1</version>
+			<version>7.1.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>layout</artifactId>
-			<version>7.1.1</version>
+			<version>7.1.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.itextpdf</groupId>
@@ -115,12 +115,12 @@
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>io</artifactId>
-			<version>7.1.1</version>
+			<version>7.1.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>root</artifactId>
-			<version>7.1.1</version>
+			<version>7.1.4</version>
 			<type>pom</type>
 		</dependency>
 
