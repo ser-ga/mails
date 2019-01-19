@@ -1,13 +1,13 @@
 package org.zavod.controller;
 
 
-import org.zavod.model.AuthorEntity;
-import org.zavod.model.Role;
-import org.zavod.service.AuthorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.zavod.model.AuthorEntity;
+import org.zavod.model.Role;
+import org.zavod.service.AuthorService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

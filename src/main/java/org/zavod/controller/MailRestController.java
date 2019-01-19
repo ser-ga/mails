@@ -1,34 +1,31 @@
 package org.zavod.controller;
 
-import org.zavod.model.AuthorEntity;
-import org.zavod.model.MailEntity;
-import org.zavod.model.Role;
-import org.zavod.service.AuthorService;
-import org.zavod.service.MailService;
-import org.zavod.util.GeneratePdfReport;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.zavod.model.AuthorEntity;
+import org.zavod.model.MailEntity;
+import org.zavod.model.Role;
+import org.zavod.service.AuthorService;
+import org.zavod.service.MailService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.zavod.controller.MailRestController.REST_URL;
+
 @RestController
 @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_MANAGER','ROLE_ADMIN')")
-@RequestMapping(value = "/rest/mails")
+@RequestMapping(value = REST_URL)
 public class MailRestController {
+
+    public static final String REST_URL = "/rest/mails";
 
     private final MailService mailService;
 
@@ -76,27 +73,5 @@ public class MailRestController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void accept(@PathVariable("id") Long id, @RequestParam("accept") boolean accept) {
         mailService.accept(id, accept);
-    }
-
-    @GetMapping(value = "/pdf/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<InputStreamResource> pdf(@PathVariable("id") Long id, @AuthenticationPrincipal User user) throws IOException {
-
-        MailEntity mail = mailService.findById(id);
-        AuthorEntity author = authorService.findByUsername(user.getUsername());
-        boolean isUser = author.getRoles().contains(Role.ROLE_USER);
-        if(isUser && !mail.isAccept()) {
-            throw new AccessDeniedException("Mail with id = " + id + " is not accepted by MANAGER");
-        }
-
-        ByteArrayInputStream bis = GeneratePdfReport.mailsReport(mail);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "inline; filename=mail"+ id +".pdf");
-
-        return ResponseEntity
-                .ok()
-                .headers(headers)
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(new InputStreamResource(bis));
     }
 }
