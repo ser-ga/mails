@@ -1,5 +1,6 @@
 package org.zavod.repository;
 
+import org.springframework.data.jpa.repository.Query;
 import org.zavod.model.MailEntity;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,6 +15,6 @@ public interface MailRepository extends JpaRepository<MailEntity, Long> {
     @EntityGraph(attributePaths = {"author"}, type = EntityGraph.EntityGraphType.LOAD)
     MailEntity getById(Long id);
 
-    @EntityGraph(attributePaths = {"author"}, type = EntityGraph.EntityGraphType.LOAD)
-    List<MailEntity> getAllBy();
+    @Query("SELECT m FROM MailEntity m JOIN FETCH m.author")
+    List<MailEntity> getAll();
 }

@@ -17,8 +17,8 @@ public class MailServiceImpl implements MailService {
     public MailRepository mailRepository;
 
     @Override
-    public List<MailEntity> findAll() {
-        return mailRepository.getAllBy();
+    public List<MailEntity> getAll() {
+        return mailRepository.getAll();
     }
 
     @Override

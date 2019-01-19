@@ -7,7 +7,7 @@ import java.util.List;
 public interface MailService {
 
 
-    List<MailEntity> findAll();
+    List<MailEntity> getAll();
 
     void save(MailEntity newMail);
 

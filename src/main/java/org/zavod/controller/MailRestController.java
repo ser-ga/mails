@@ -39,7 +39,7 @@ public class MailRestController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MailEntity> getAll() {
-        return mailService.findAll();
+        return mailService.getAll();
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -48,7 +48,7 @@ public class MailRestController {
     }
 
     @PostMapping
-    public void save(@Validated MailEntity mailEntity, @AuthenticationPrincipal User user, HttpServletRequest request) {
+    public void save(@Validated MailEntity mailEntity, @AuthenticationPrincipal User user) {
         AuthorEntity author = authorService.findByUsername(user.getUsername());
         mailEntity.setAccept(false);
         mailEntity.setUpdateDateTime(LocalDateTime.now());

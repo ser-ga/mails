@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -51,9 +52,5 @@ public class AuthorEntity {
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.LAZY)
     private Set<Role> roles;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
-    private List<MailEntity> mails;
 
 }

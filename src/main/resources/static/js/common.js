@@ -64,7 +64,13 @@ $(function () {
                 "data": "mailNumber"
             },
             {
-                "data": "createDate"
+                "data": "createDate",
+                "render": function (data, type, row) {
+                    if (type === "display") {
+                        return data.substring(0, 10) + " " + data.substring(11, 16);
+                    }
+                    return data;
+                }
             },
             {
                 "data": "mailRecipient"
@@ -104,7 +110,7 @@ $(function () {
             let dataAuthorId = data.author.id.toString();
             let authorId = $('#authorId').html();
             let check = false;
-            if(dataAuthorId === authorId) check = true;
+            if (dataAuthorId === authorId) check = true;
             $(row).attr("data-author", check);
         },
         "sDom": "<'row'<'col-md-6'l><'col-md-6'Bf>>" +
@@ -148,7 +154,7 @@ function renderDeleteBtn(data, type, row) {
 
 function renderPdfBtn(data, type, row) {
     if (type === "display") {
-        return "<a target='_blank' href='" + ajaxUrl + "pdf/" + row.id + "'><span class='fa fa-file-pdf-o'></span></a>";
+        return "<a target='_blank' href='" + "/pdf/" + row.id + "'><span class='fa fa-file-pdf-o'></span></a>";
     }
 }
 
@@ -186,7 +192,7 @@ function deleteMail(id) {
             }
         },
         callback: function (result) {
-            if(result) {
+            if (result) {
                 $.ajax({
                     url: ajaxUrl + id,
                     type: "DELETE"
