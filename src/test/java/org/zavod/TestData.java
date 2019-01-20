@@ -39,7 +39,7 @@ public class TestData {
             12,
             "recipient1",
             "subject1",
-            "text1",
+            "title1\\ntext1",
             true,
             1,
             MNGR);
@@ -50,7 +50,7 @@ public class TestData {
             13,
             "recipient2",
             "subject2",
-            "text2",
+            "title2\\ntext2",
             true,
             1,
             EMPL);
@@ -61,7 +61,7 @@ public class TestData {
             14,
             "recipient3",
             "subject3",
-            "text3",
+            "title3\\ntext3",
             true,
             1,
             MNGR);
@@ -72,7 +72,7 @@ public class TestData {
             15,
             "recipient2",
             "subject4",
-            "text4",
+            "title4\\ntext4",
             true,
             1,
             ADMIN);
@@ -83,7 +83,7 @@ public class TestData {
             16,
             "recipient3",
             "subject5",
-            "text5",
+            "title5\\ntext5",
             true,
             1,
             MNGR);
@@ -96,7 +96,13 @@ public class TestData {
     public static final long MAIL_ENTITY_6_ID = GLOBAL_SEQ + 8;
 
     public static MailEntity getNew() {
-        return new MailEntity(MAIL_ENTITY_6_ID, LocalDateTime.parse("2019-01-15T23:29:23"), null, 17, "recipient3", "subject6", "text6", false, 1, null);
+        return new MailEntity(MAIL_ENTITY_6_ID, LocalDateTime.parse("2019-01-15T23:29:23"), null, 17, "recipient3", "subject6", "title6\\ntext6", false, 1, null);
+    }
+
+    public static final AuthorEntity NEW_USER = new AuthorEntity(null, "new User", "new", "passw", true, Collections.singleton(Role.ROLE_USER));
+
+    public static AuthorEntity getNewUser() {
+        return new AuthorEntity(NEW_USER.getId(), NEW_USER.getFullName(), NEW_USER.getUsername(), NEW_USER.getPassword(), NEW_USER.isActive(), NEW_USER.getRoles());
     }
 
     public static Gson getGson() {

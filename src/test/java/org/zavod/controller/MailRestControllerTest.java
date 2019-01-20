@@ -15,7 +15,6 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -71,10 +70,9 @@ class MailRestControllerTest extends AbstractControllerTest {
         params.add("createDate", "2019-01-15T23:29:23");
         params.add("mailRecipient", "recipient3");
         params.add("mailSubject", "subject6");
-        params.add("mailText", "text6");
+        params.add("mailText", "title6\\ntext6");
 
         mockMvc.perform(post(REST_URL).params(params)
-                .contentType(MediaType.APPLICATION_JSON)
                 .with(httpBasic(ADMIN_USERNAME, ADMIN_PASSWORD)))
                 .andExpect(status().isOk());
 

@@ -33,7 +33,7 @@ public class AdminController {
     }
 
     @PostMapping
-    public ModelAndView createNewAuthor(@Valid AuthorEntity authorEntity, BindingResult bindingResult) {
+    public ModelAndView create(@Valid AuthorEntity authorEntity, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
         AuthorEntity authorExists = authorService.findByUsername(authorEntity.getUsername());
         modelAndView.setViewName("admin");
