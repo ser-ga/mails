@@ -1,12 +1,13 @@
 package org.zavod.service;
 
-import org.zavod.model.AuthorEntity;
-import org.zavod.model.MailEntity;
-import org.zavod.repository.MailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.zavod.model.AuthorEntity;
+import org.zavod.model.MailEntity;
+import org.zavod.repository.AuthorRepository;
+import org.zavod.repository.MailRepository;
 
 import java.util.List;
 
@@ -15,6 +16,9 @@ public class MailServiceImpl implements MailService {
 
     @Autowired
     public MailRepository mailRepository;
+
+    @Autowired
+    public AuthorRepository authorRepository;
 
     @Override
     public List<MailEntity> getAll() {
@@ -60,5 +64,12 @@ public class MailServiceImpl implements MailService {
             existing.setAccept(accept);
             mailRepository.save(existing);
         }
+    }
+
+    @Override
+    public void changeAuthor(MailEntity mail, long authorId) {
+        AuthorEntity authorEntity = authorRepository.getOne(authorId);
+        mail.setAuthor(authorEntity);
+        mailRepository.save(mail);
     }
 }

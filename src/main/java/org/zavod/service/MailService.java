@@ -19,4 +19,6 @@ public interface MailService {
 
     void accept(Long id, boolean accept);
 
+    void changeAuthor(MailEntity mail, long authorId);
+
 }

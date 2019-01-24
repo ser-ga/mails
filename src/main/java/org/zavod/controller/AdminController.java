@@ -33,11 +33,11 @@ public class AdminController {
     }
 
     @PostMapping
-    public ModelAndView create(@Valid AuthorEntity authorEntity, BindingResult bindingResult) {
+    public ModelAndView create(@Valid @ModelAttribute("authorEntity") AuthorEntity authorEntity, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
         AuthorEntity authorExists = authorService.findByUsername(authorEntity.getUsername());
         modelAndView.setViewName("admin");
-        modelAndView.addObject("authorEntity", authorEntity);
+//        modelAndView.addObject("authorEntity", authorEntity);
 
         if (authorExists != null) {
             bindingResult.rejectValue("username", "error.newAuthor", "Пользователь существует!");

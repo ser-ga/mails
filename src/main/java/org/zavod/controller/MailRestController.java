@@ -14,7 +14,6 @@ import org.zavod.model.Role;
 import org.zavod.service.AuthorService;
 import org.zavod.service.MailService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -73,5 +72,14 @@ public class MailRestController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void accept(@PathVariable("id") Long id, @RequestParam("accept") boolean accept) {
         mailService.accept(id, accept);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    @PostMapping("/{id}/author")
+    public void changeAuthor(@PathVariable("id") long mailId, @RequestParam("authorId") long authorId) {
+        MailEntity mail = mailService.findById(mailId);
+        if (!mail.isAccept() && mail.getAuthor().getId() != authorId) {
+            mailService.changeAuthor(mail, authorId);
+        } else throw new RuntimeException("Don't changed Entity with id=" + mailId);
     }
 }

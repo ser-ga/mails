@@ -79,7 +79,13 @@ $(function () {
                 "data": "mailSubject"
             },
             {
-                "data": "author.fullName"
+                "data": "author",
+                "render": function (data, type, row) {
+                    if (type === "display") {
+                        return "<a onclick='change(" + row.id + "," + data.id + "," + row.mailNumber + ");'>" + data.fullName + "</a>";
+                    }
+                    return data;
+                }
             },
             {
                 "data": "accept",
@@ -217,5 +223,37 @@ function acceptMail(chkbox, id) {
         successNoty(enabled ? "Проверено" : "Отменено");
     }).fail(function () {
         $(chkbox).prop("checked", !enabled);
+    });
+}
+
+function change(mailId, authorId, mailNumber) {
+    $("#authorsTitle").html('Исполнители');
+    let sel = $("#authors-id");
+    sel.empty();
+    let authorsForm = $('#authorsForm');
+    authorsForm.find("input[name='id']").val(mailId);
+    authorsForm.find("input[name='mailNumber']").val(mailNumber);
+    $.get("/rest/authors", function (data) {
+        $.each(data, function (key, value) {
+            let selected = "";
+            if(authorId === value.id) selected = "selected";
+            sel.append('<option value="' + value.id + '"' + selected + '>' + value.fullName + '</option>');
+        });
+        $('#authors').modal();
+    });
+}
+
+function changeAuthor() {
+    const authorsForm = $('#authorsForm');
+    let newAuthor = authorsForm.find("select[name='authorId']").val();
+    let mailId = authorsForm.find("input[name='id']").val();
+    $.ajax({
+        url: ajaxUrl + mailId + "/author",
+        type: "POST",
+        data: "authorId=" + newAuthor
+    }).done(function () {
+        $("#authors").modal("hide");
+        updateTable();
+        successNoty("Письмо сохранено");
     });
 }
