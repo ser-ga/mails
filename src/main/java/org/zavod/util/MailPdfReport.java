@@ -14,25 +14,31 @@ import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.property.TextAlignment;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Component;
 import org.zavod.model.MailEntity;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-public class GeneratePdfReport {
+@Component
+public class MailPdfReport implements IPdfReport<MailEntity> {
 
-    private static final String FONT = "./src/main/resources/static/fonts/times.ttf";
-    private static final String LOGO = "./src/main/resources/static/images/logo.png";
+    @Autowired
+    private ResourceLoader resourceLoader;
 
-    public static ByteArrayInputStream mailsReport(MailEntity mail) throws IOException {
+    public ByteArrayInputStream create(MailEntity mail) throws IOException {
+
+        final Resource logo = resourceLoader.getResource("classpath:static/images/logo.png");
+        final Resource font = resourceLoader.getResource("classpath:static/fonts/times.ttf");
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-
         PdfWriter pdfWriter = new PdfWriter(out);
-
         PdfDocument pdfDocument = new PdfDocument(pdfWriter);
 
-        PdfFont pdfFont = PdfFontFactory.createFont(FONT, PdfEncodings.IDENTITY_H);
+        PdfFont pdfFont = PdfFontFactory.createFont(font.getFile().getAbsolutePath(), PdfEncodings.IDENTITY_H);
         Rectangle r0 = new Rectangle(130, 750, 75, 60);
         Rectangle r1 = new Rectangle(20, 650, 300, 100);
         Rectangle r2 = new Rectangle(20, 550, 300, 155);
@@ -48,7 +54,7 @@ public class GeneratePdfReport {
         PdfCanvas c4 = new PdfCanvas(pdfDocument.getFirstPage()).rectangle(r4);
         PdfCanvas c5 = new PdfCanvas(pdfDocument.getFirstPage()).rectangle(r5);
 
-        ImageData imageData = ImageDataFactory.create(LOGO);
+        ImageData imageData = ImageDataFactory.create(logo.getFile().getAbsolutePath());
         c5.addImage(imageData, r0, false);
 
         final char dml = (char) 171;

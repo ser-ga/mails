@@ -21,10 +21,10 @@ import org.zavod.model.MailEntity;
 import org.zavod.model.Role;
 import org.zavod.service.AuthorService;
 import org.zavod.service.MailService;
-import org.zavod.util.GeneratePdfReport;
+import org.zavod.util.IPdfReport;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 
 @Controller
@@ -35,10 +35,13 @@ public class RootController {
 
     private final MailService mailService;
 
+    private final IPdfReport pdfReport;
+
     @Autowired
-    public RootController(AuthorService authorService, MailService mailService) {
+    public RootController(AuthorService authorService, MailService mailService, IPdfReport pdfReport) {
         this.authorService = authorService;
         this.mailService = mailService;
+        this.pdfReport = pdfReport;
     }
 
     @GetMapping
@@ -79,7 +82,7 @@ public class RootController {
             throw new AccessDeniedException("Mail with id = " + id + " is not accepted by MANAGER");
         }
 
-        ByteArrayInputStream bis = GeneratePdfReport.mailsReport(mail);
+        InputStream bis = pdfReport.create(mail);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=mail" + id + ".pdf");

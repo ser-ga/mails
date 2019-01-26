@@ -27,6 +27,7 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public void save(MailEntity newMail) {
+        newMail.setMailText(newMail.getMailText() + "\n");
         mailRepository.save(newMail);
     }
 
