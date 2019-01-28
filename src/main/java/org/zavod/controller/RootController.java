@@ -1,7 +1,6 @@
 package org.zavod.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +22,6 @@ import org.zavod.service.AuthorService;
 import org.zavod.service.MailService;
 import org.zavod.util.IPdfReport;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDate;
 
 @Controller
@@ -73,7 +70,7 @@ public class RootController {
 
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_MANAGER','ROLE_ADMIN')")
     @GetMapping(value = "/pdf/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<InputStreamResource> pdf(@PathVariable("id") Long id, @AuthenticationPrincipal User user) throws IOException {
+    public ResponseEntity pdf(@PathVariable("id") Long id, @AuthenticationPrincipal User user) {
 
         MailEntity mail = mailService.findById(id);
         AuthorEntity author = authorService.findByUsername(user.getUsername());
@@ -82,8 +79,6 @@ public class RootController {
             throw new AccessDeniedException("Mail with id = " + id + " is not accepted by MANAGER");
         }
 
-        InputStream bis = pdfReport.create(mail);
-
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=mail" + id + ".pdf");
 
@@ -91,6 +86,6 @@ public class RootController {
                 .ok()
                 .headers(headers)
                 .contentType(MediaType.APPLICATION_PDF)
-                .body(new InputStreamResource(bis));
+                .body(pdfReport.create(mail));
     }
 }

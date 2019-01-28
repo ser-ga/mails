@@ -67,10 +67,11 @@ class MailRestControllerTest extends AbstractControllerTest {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("mailNumber", "17");
-        params.add("createDate", "2019-01-15T23:29:23");
+        params.add("createDate", "2019-01-15");
         params.add("mailRecipient", "recipient3");
         params.add("mailSubject", "subject6");
-        params.add("mailText", "title6\\ntext6");
+        params.add("mailTitle", "mailTitle");
+        params.add("mailText", "mailText");
 
         mockMvc.perform(post(REST_URL).params(params)
                 .with(httpBasic(ADMIN_USERNAME, ADMIN_PASSWORD)))

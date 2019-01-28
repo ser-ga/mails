@@ -14,6 +14,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -32,9 +33,9 @@ public class MailEntity implements Serializable {
     private Long id;
 
     @NotNull
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "create_date", nullable = false)
-    private LocalDateTime createDate;
+    private LocalDate createDate;
 
     @Column(name = "update_date", nullable = false)
     private LocalDateTime updateDateTime;
@@ -51,6 +52,10 @@ public class MailEntity implements Serializable {
     @NotEmpty
     @Column(name = "subject", nullable = false, length = 1000)
     private String mailSubject;
+
+    @NotEmpty
+    @Column(name = "title", nullable = false, length = 100)
+    private String mailTitle;
 
     @NotEmpty
     @Column(name = "text", nullable = false, length = 10000)

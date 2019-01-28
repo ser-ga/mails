@@ -7,6 +7,7 @@ import org.zavod.model.MailEntity;
 import org.zavod.model.Role;
 
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -34,56 +35,61 @@ public class TestData {
 
     public static final MailEntity MAIL_ENTITY_1 = new MailEntity(
             MAIL_ENTITY_1_ID,
-            LocalDateTime.of(2018, 12, 15, 10, 0),
+            LocalDate.of(2018, 12, 15),
             LocalDateTime.of(2018, 12, 15, 10, 0),
             12,
             "recipient1",
             "subject1",
-            "title1\\ntext1",
+            "text1",
+            "text1",
             true,
             1,
             MNGR);
     public static final MailEntity MAIL_ENTITY_2 = new MailEntity(
             MAIL_ENTITY_2_ID,
-            LocalDateTime.of(2018, 12, 15, 11, 0),
+            LocalDate.of(2018, 12, 15),
             LocalDateTime.of(2018, 12, 15, 11, 0),
             13,
             "recipient2",
             "subject2",
-            "title2\\ntext2",
+            "text2",
+            "text2",
             true,
             1,
             EMPL);
     public static final MailEntity MAIL_ENTITY_3 = new MailEntity(
             MAIL_ENTITY_3_ID,
-            LocalDateTime.of(2018, 12, 15, 12, 0),
+            LocalDate.of(2018, 12, 15),
             LocalDateTime.of(2018, 12, 15, 12, 0),
             14,
             "recipient3",
             "subject3",
-            "title3\\ntext3",
+            "text3",
+            "text3",
             true,
             1,
             MNGR);
     public static final MailEntity MAIL_ENTITY_4 = new MailEntity(
             MAIL_ENTITY_4_ID,
-            LocalDateTime.of(2018, 12, 15, 13, 0),
+            LocalDate.of(2018, 12, 15),
             LocalDateTime.of(2018, 12, 15, 13, 0),
             15,
             "recipient2",
             "subject4",
-            "title4\\ntext4",
+            "text4",
+            "text4",
             true,
             1,
             ADMIN);
     public static final MailEntity MAIL_ENTITY_5 = new MailEntity(
             MAIL_ENTITY_5_ID,
-            LocalDateTime.of(2018, 12, 15, 14, 0),
+            LocalDate.of(2018, 12, 15),
             LocalDateTime.of(2018, 12, 15, 14, 0),
             16,
             "recipient3",
             "subject5",
-            "title5\\ntext5",
+            "text5",
+            "text5",
             true,
             1,
             MNGR);
@@ -96,7 +102,7 @@ public class TestData {
     public static final long MAIL_ENTITY_6_ID = GLOBAL_SEQ + 8;
 
     public static MailEntity getNew() {
-        return new MailEntity(MAIL_ENTITY_6_ID, LocalDateTime.parse("2019-01-15T23:29:23"), null, 17, "recipient3", "subject6", "title6\\ntext6", false, 1, null);
+        return new MailEntity(MAIL_ENTITY_6_ID, LocalDate.parse("2019-01-15"), null, 17, "recipient3", "subject6", "mailTitle", "mailText",false, 1, null);
     }
 
     public static final AuthorEntity NEW_USER = new AuthorEntity(null, "new User", "new", "passw", true, Collections.singleton(Role.ROLE_USER));
@@ -111,6 +117,12 @@ public class TestData {
                     @Override
                     public LocalDateTime deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
                         return LocalDateTime.parse(json.getAsString());
+                    }
+                })
+                .registerTypeAdapter(LocalDate.class, new JsonDeserializer<LocalDate>() {
+                    @Override
+                    public LocalDate deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+                        return LocalDate.parse(json.getAsString());
                     }
                 })
                 .addDeserializationExclusionStrategy(new ExclusionStrategy() {
