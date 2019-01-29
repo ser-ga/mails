@@ -145,6 +145,17 @@
             <optional>true</optional>
         </dependency>
 
+        <!--CACHE-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast</artifactId>
+        </dependency>
+
         <!--iText-->
         <dependency>
             <groupId>com.itextpdf</groupId>

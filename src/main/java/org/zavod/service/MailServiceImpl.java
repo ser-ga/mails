@@ -1,6 +1,8 @@
 package org.zavod.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,11 +23,13 @@ public class MailServiceImpl implements MailService {
     public AuthorRepository authorRepository;
 
     @Override
+    @Cacheable("mailCache")
     public List<MailEntity> getAll() {
         return mailRepository.getAll();
     }
 
     @Override
+    @CacheEvict(value = "mailCache", allEntries = true)
     public void save(MailEntity newMail) {
         mailRepository.save(newMail);
     }
@@ -37,6 +41,7 @@ public class MailServiceImpl implements MailService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "mailCache", allEntries = true)
     public void update(MailEntity mail, long authorId, boolean isUser) {
         MailEntity existing = mailRepository.getById(mail.getId());
         if (existing != null) {
@@ -52,12 +57,14 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
+    @CacheEvict(value = "mailCache", allEntries = true)
     public void delete(Long id) {
         mailRepository.deleteById(id);
     }
 
     @Override
     @Transactional
+    @CacheEvict(value = "mailCache", allEntries = true)
     public void accept(Long id, boolean accept) {
         MailEntity existing = mailRepository.findById(id).orElse(null);
         if (existing != null) {
@@ -67,6 +74,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
+    @CacheEvict(value = "mailCache", allEntries = true)
     public void changeAuthor(MailEntity mail, long authorId) {
         AuthorEntity authorEntity = authorRepository.getOne(authorId);
         mail.setAuthor(authorEntity);

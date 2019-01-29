@@ -1,5 +1,7 @@
 package org.zavod.service;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.zavod.model.AuthorEntity;
 import org.zavod.model.Role;
 import org.zavod.repository.AuthorRepository;
@@ -21,6 +23,7 @@ public class AuthorServiceImpl implements AuthorService {
     private PasswordEncoder passwordEncoder;
 
     @Override
+    @Cacheable("authorCache")
     public List<AuthorEntity> findAll() {
         return authorRepository.getAllByOrderByIdAsc();
     }
@@ -31,6 +34,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    @CacheEvict(value = "authorCache", allEntries = true)
     public AuthorEntity save(AuthorEntity author) {
         author.setPassword(passwordEncoder.encode(author.getPassword()));
         author.setActive(true);
@@ -39,6 +43,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    @CacheEvict(value = "authorCache", allEntries = true)
     public void delete(long id) {
         authorRepository.deleteById(id);
     }
