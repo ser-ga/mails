@@ -3,6 +3,7 @@ package org.zavod.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -80,6 +81,6 @@ public class MailRestController {
         MailEntity mail = mailService.findById(mailId);
         if (!mail.isAccept() && mail.getAuthor().getId() != authorId) {
             mailService.changeAuthor(mail, authorId);
-        } else throw new RuntimeException("Don't changed Entity with id=" + mailId);
+        } else throw new AccessDeniedException("Don't changed Entity with id=" + mailId);
     }
 }

@@ -7,7 +7,6 @@
     <tbody>
     <tr>
         <td width="50%" style="text-align: center;">
-
             <img width="75" src="logo.png"/><br/>
             <p style="font-size: 12px;">
                 ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО<br/>
@@ -40,8 +39,6 @@
         </td>
     </tr>
     </tbody>
-
 </table>
-
 </body>
 </html>

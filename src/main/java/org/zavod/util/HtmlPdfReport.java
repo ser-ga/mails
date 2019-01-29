@@ -1,6 +1,5 @@
 package org.zavod.util;
 
-import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.FontFactory;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.zavod.model.MailEntity;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.Charset;

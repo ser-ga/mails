@@ -44,6 +44,7 @@ CREATE TABLE mail
   NUMBER      INT                          NOT NULL,
   RECIPIENT   VARCHAR(255)                 NOT NULL,
   SUBJECT     VARCHAR(255)                 NOT NULL,
+  TITLE       VARCHAR(255),
   TEXT        VARCHAR(2000)                NOT NULL,
   UPDATE_DATE DATETIME DEFAULT now()       NOT NULL,
   VERSION     INT                          NOT NULL,

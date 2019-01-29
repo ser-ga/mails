@@ -4,15 +4,20 @@ ajaxUrl = "rest/mails/";
 
 form = $('#detailsForm');
 
+$.ajaxSetup({cache: false});
+
+let editor1, html = '';
+
 function add() {
     $("#modalTitle").html('Новое письмо');
     form.find(":input").val("");
     $("#newMail").modal();
+    editor1 = CKEDITOR.replace('mailText');
 }
 
-$.ajaxSetup({cache: false});
-
 function save() {
+    html = editor1.getData();
+    form.find("textarea[name='mailText']").val(html);
     let data = $('form#detailsForm').serialize();
     $.ajax({
         type: "POST",
@@ -22,7 +27,13 @@ function save() {
         $("#newMail").modal("hide");
         updateTable();
         successNoty("Письмо сохранено");
+        cancel();
     });
+}
+
+function cancel() {
+    editor1.destroy();
+    editor1 = null;
 }
 
 function updateTable() {
@@ -181,6 +192,7 @@ function updateMail(id) {
             form.find("textarea[name='" + key + "']").val(value);
         });
         $('#newMail').modal();
+        editor1 = CKEDITOR.replace('mailText');
     });
 }
 

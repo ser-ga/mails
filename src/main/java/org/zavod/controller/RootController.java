@@ -75,8 +75,8 @@ public class RootController {
         MailEntity mail = mailService.findById(id);
         AuthorEntity author = authorService.findByUsername(user.getUsername());
         boolean isUser = author.getRoles().contains(Role.ROLE_USER);
-        if (isUser && !mail.isAccept()) {
-            throw new AccessDeniedException("Mail with id = " + id + " is not accepted by MANAGER");
+        if (isUser && !mail.getAuthor().getId().equals(author.getId())) {
+            throw new AccessDeniedException("Access level not lower than MANAGER is required");
         }
 
         HttpHeaders headers = new HttpHeaders();
