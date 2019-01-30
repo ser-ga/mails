@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Set;
 
 @Data
@@ -17,7 +18,7 @@ import java.util.Set;
 @Entity
 @Table(name = "author")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class AuthorEntity {
+public class AuthorEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

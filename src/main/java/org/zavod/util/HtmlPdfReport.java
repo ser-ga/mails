@@ -26,6 +26,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.springframework.util.ResourceUtils.CLASSPATH_URL_PREFIX;
+
 @Component
 public class HtmlPdfReport implements IPdfReport<MailEntity> {
 
@@ -35,9 +37,9 @@ public class HtmlPdfReport implements IPdfReport<MailEntity> {
     @Override
     public byte[] create(MailEntity mail) {
 
-        final Resource font = resourceLoader.getResource("classpath:static/fonts/times.ttf");
-        final Resource imagesPath = resourceLoader.getResource("classpath:static/images");
-        final Resource templateFolder = resourceLoader.getResource("classpath:templates/freemarker");
+        final Resource font = resourceLoader.getResource(CLASSPATH_URL_PREFIX + "static/fonts/times.ttf");
+        final Resource imagesPath = resourceLoader.getResource(CLASSPATH_URL_PREFIX + "static/images");
+        final Resource templateFolder = resourceLoader.getResource(CLASSPATH_URL_PREFIX + "templates/freemarker");
 
         try (StringWriter htmlWriter = new StringWriter(); ByteArrayOutputStream outPdf = new ByteArrayOutputStream()) {
 
