@@ -20,9 +20,10 @@ import org.zavod.model.MailEntity;
 import org.zavod.model.Role;
 import org.zavod.service.AuthorService;
 import org.zavod.service.MailService;
-import org.zavod.util.IPdfReport;
+import org.zavod.util.pdf.IPdfReport;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 @RequestMapping(value = "/")
@@ -64,7 +65,7 @@ public class RootController {
         modelAndView.addObject("fullName", currentAuthor.getFullName());
         modelAndView.addObject("authorId", currentAuthor.getId());
         modelAndView.setViewName("home");
-        modelAndView.addObject("date", LocalDate.now());
+        modelAndView.addObject("date", LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
         return modelAndView;
     }
 

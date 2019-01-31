@@ -51,4 +51,9 @@ public class AuthorEntity implements Serializable {
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.LAZY)
     private Set<Role> roles;
+
+    @Override
+    public String toString() {
+        return fullName;
+    }
 }

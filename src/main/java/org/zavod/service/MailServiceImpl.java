@@ -36,7 +36,7 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public MailEntity findById(Long id) {
-        return mailRepository.findById(id).orElse(null);
+        return mailRepository.getById(id);
     }
 
     @Override

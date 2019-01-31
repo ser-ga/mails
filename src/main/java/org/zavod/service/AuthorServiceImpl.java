@@ -1,13 +1,14 @@
 package org.zavod.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.zavod.model.AuthorEntity;
 import org.zavod.model.Role;
 import org.zavod.repository.AuthorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.zavod.util.exception.NotFoundException;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +31,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorEntity findById(Long id) {
-        return authorRepository.findById(id).orElse(null);
+        return authorRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found author with id=" + id));
     }
 
     @Override
@@ -52,6 +53,5 @@ public class AuthorServiceImpl implements AuthorService {
     public AuthorEntity findByUsername(String username) {
         return authorRepository.findAuthorByUsername(username);
     }
-
 
 }

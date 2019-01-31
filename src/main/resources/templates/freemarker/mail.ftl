@@ -22,20 +22,28 @@
             </p>
 
             <p style="font-size: 14px;">
-                Исх.№ ${mailNumber} от ${mailDate}
+                Исх.№ ${mail.mailNumber} от ${mailDate}
             </p>
 
         </td>
-        <td width="50%" style="font-size: 14px; text-align: right;"><p>${mailRecipient}</p></td>
+        <td width="50%" style="font-size: 14px; text-align: right;"><p>${mail.mailRecipient}</p></td>
     </tr>
     <tr>
         <td colspan="2" style="font-size: 16px; font-weight: bold;text-align: center;padding-top: 25px;">
-            <p>${mailTitle}</p>
+            <p>${mail.mailTitle}</p>
         </td>
     </tr>
     <tr>
-        <td colspan="2" style="font-size: 14px;padding-top: 25px;text-indent: 20px;">
-            <p>${mailText}</p>
+        <td colspan="2" style="font-size: 14px;padding-top: 25px;text-indent: 35px;">
+            <p>${mail.mailText}</p>
+        </td>
+    </tr>
+    <tr>
+        <td style="font-size: 16px;padding-top: 25px; padding-left: 25px;font-weight: bold;">
+            <p>И.О. Генерального директора<br/>ОАО "БМЗ"</p>
+        </td>
+        <td style="font-size: 16px;padding-top: 50px;padding-right: 25px;font-weight: bold;text-align: right;">
+            <p>Охлопков Р.С.</p>
         </td>
     </tr>
     </tbody>

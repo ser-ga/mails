@@ -1,27 +1,72 @@
-let form, ajaxUrl, datatableApi;
-
-ajaxUrl = "rest/mails/";
+let form, mailAjaxUrl, authorAjaxUrl, datatableApi;
 
 form = $('#detailsForm');
+mailAjaxUrl = "rest/mails/";
+authorAjaxUrl = "rest/authors";
 
-$.ajaxSetup({cache: false});
-
-let editor1, html = '';
+let editor1, editor2, html = '';
 
 function add() {
     $("#modalTitle").html('Новое письмо');
     form.find(":input").val("");
     $("#newMail").modal();
-    editor1 = CKEDITOR.replace('mailText');
+    createEditors();
 }
 
+function createEditors() {
+    editor1 = CKEDITOR.replace('mailRecipient',
+        {
+            toolbar: [{name: 'basicstyles', items: ['Bold', 'Italic']}],
+            uiColor: '#9AB8F3',
+            height: 50
+        });
+    editor2 = CKEDITOR.replace('mailText',
+        {
+            toolbarGroups: [{
+                "name": "basicstyles",
+                "groups": ["basicstyles"]
+            },
+                {
+                    "name": "links",
+                    "groups": ["links"]
+                },
+                {
+                    "name": "paragraph",
+                    "groups": ["list", "blocks"]
+                },
+                {
+                    "name": "document",
+                    "groups": ["mode"]
+                },
+                {
+                    "name": "insert",
+                    "groups": ["insert"]
+                },
+                {
+                    "name": "styles",
+                    "groups": ["styles"]
+                },
+                {
+                    "name": "about",
+                    "groups": ["about"]
+                }
+            ],
+            removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar',
+            uiColor: '#9AB8F3',
+            height: 50
+        });
+}
+
+$.ajaxSetup({cache: false});
 function save() {
     html = editor1.getData();
+    form.find("textarea[name='mailRecipient']").val(html);
+    html = editor2.getData();
     form.find("textarea[name='mailText']").val(html);
     let data = $('form#detailsForm').serialize();
     $.ajax({
         type: "POST",
-        url: ajaxUrl,
+        url: mailAjaxUrl,
         data: data
     }).done(function () {
         $("#newMail").modal("hide");
@@ -39,7 +84,7 @@ function cancel() {
 function updateTable() {
     $.ajax({
         type: "GET",
-        url: ajaxUrl
+        url: mailAjaxUrl
     }).done(function (data) {
         datatableApi.clear().rows.add(data).draw();
     });
@@ -66,7 +111,7 @@ $(document).ajaxError(function (event, jqXHR, options, jsExc) {
 $(function () {
     datatableApi = $("#mails").DataTable({
         "ajax": {
-            "url": ajaxUrl,
+            "url": mailAjaxUrl,
             "dataSrc": ""
         },
 
@@ -171,7 +216,7 @@ function renderDeleteBtn(data, type, row) {
 
 function renderPdfBtn(data, type, row) {
     if (type === "display") {
-        return "<a target='_blank' href='" + "/pdf/" + row.id + "'><span class='fa fa-file-pdf-o'></span></a>";
+        return "<a target='_blank' href='" + "pdf/" + row.id + "'><span class='fa fa-file-pdf-o'></span></a>";
     }
 }
 
@@ -186,13 +231,13 @@ function makeEditable() {
 
 function updateMail(id) {
     $("#modalTitle").html('Редактирование письма');
-    $.get(ajaxUrl + id, function (data) {
+    $.get(mailAjaxUrl + id, function (data) {
         $.each(data, function (key, value) {
             form.find("input[name='" + key + "']").val(value);
             form.find("textarea[name='" + key + "']").val(value);
         });
         $('#newMail').modal();
-        editor1 = CKEDITOR.replace('mailText');
+        createEditors();
     });
 }
 
@@ -212,7 +257,7 @@ function deleteMail(id) {
         callback: function (result) {
             if (result) {
                 $.ajax({
-                    url: ajaxUrl + id,
+                    url: mailAjaxUrl + id,
                     type: "DELETE"
                 }).done(function () {
                     updateTable();
@@ -227,7 +272,7 @@ function acceptMail(chkbox, id) {
     const enabled = chkbox.is(":checked");
 //  https://stackoverflow.com/a/22213543/548473
     $.ajax({
-        url: ajaxUrl + id,
+        url: mailAjaxUrl + id,
         type: "POST",
         data: "accept=" + enabled
     }).done(function () {
@@ -245,10 +290,10 @@ function change(mailId, authorId, mailNumber) {
     let authorsForm = $('#authorsForm');
     authorsForm.find("input[name='id']").val(mailId);
     authorsForm.find("input[name='mailNumber']").val(mailNumber);
-    $.get("/rest/authors", function (data) {
+    $.get("rest/authors", function (data) {
         $.each(data, function (key, value) {
             let selected = "";
-            if(authorId === value.id) selected = "selected";
+            if (authorId === value.id) selected = "selected";
             sel.append('<option value="' + value.id + '"' + selected + '>' + value.fullName + '</option>');
         });
         $('#authors').modal();
@@ -260,7 +305,7 @@ function changeAuthor() {
     let newAuthor = authorsForm.find("select[name='authorId']").val();
     let mailId = authorsForm.find("input[name='id']").val();
     $.ajax({
-        url: ajaxUrl + mailId + "/author",
+        url: mailAjaxUrl + mailId + "/author",
         type: "POST",
         data: "authorId=" + newAuthor
     }).done(function () {

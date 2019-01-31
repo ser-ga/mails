@@ -4,7 +4,7 @@
 <head>
     <title th:text="#{loginpage.title}"></title>
     <div th:replace="fragments/headTag :: header"></div>
-    <link rel="stylesheet" href="/css/login.css" />
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
     <link rel="stylesheet" href="webjars/flag-icon-css/2.4.0/css/flag-icon.min.css" />
 
 </head>
@@ -14,11 +14,11 @@
         <ul class="navbar-nav">
             <li class="nav-item">
 
-                <span th:class="'flag-icon flag-icon-' + #{lang.country}"></span><span th:text="${#locale}"></span>
+                <span th:class="'flag-icon flag-icon-' + #{lang.country}"></span>
                 <select id="locales">
-                    <option value="" disabled selected>Выбор языка</option>
-                    <option value="ru" th:text="#{lang.russian}"></option>
-                    <option value="en" th:text="#{lang.english}"></option>
+                    <option value="" th:text="${#locale}" disabled selected></option>
+                    <option value="ru">Русский</option>
+                    <option value="en">English</option>
                 </select>
             </li>
         </ul>
@@ -68,7 +68,7 @@
 
                 <p>
                     <span class="display-4" th:text="#{greeting}"></span><span class="display-4" th:text="${auth.getName()}"></span>
-                    <br/> <a href="/logout" class="btn btn-primary" th:text="#{common.exit}"></a> <a href="/home" class="btn btn-primary" th:text="#{common.main}"></a>
+                    <br/> <a th:href="@{/logout}" class="btn btn-primary" th:text="#{common.exit}"></a> <a th:href="@{/home}" class="btn btn-primary" th:text="#{common.main}"></a>
                 </p>
             </th:block>
         </div>

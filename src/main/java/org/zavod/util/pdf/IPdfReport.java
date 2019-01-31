@@ -1,4 +1,4 @@
-package org.zavod.util;
+package org.zavod.util.pdf;
 
 public interface IPdfReport <T> {
 
