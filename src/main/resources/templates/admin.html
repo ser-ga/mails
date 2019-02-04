@@ -21,6 +21,7 @@
                         <th scope="col">Id</th>
                         <th scope="col">ФИО</th>
                         <th scope="col">Имя пользователя</th>
+                        <th scope="col">Телефон</th>
                         <th scope="col">Роли</th>
                         <th scope="col"></th>
                     </tr>
@@ -30,6 +31,7 @@
                         <td th:text="${author.id}"></td>
                         <td th:text="${author.fullName}"></td>
                         <td th:text="${author.username}"></td>
+                        <td th:text="${author.phone}"></td>
                         <td th:each="role : ${author.roles}">
                             <span th:text=" ${role} "></span>
                         </td>
@@ -43,17 +45,20 @@
             <form action="#" class="form-horizontal" th:action="@{/admin}" method="post" th:object="${authorEntity}">
                 <h3>Регистрация пользователя</h3>
                 <div class="form-group">
-                    <input type="text" class="form-control" th:field="*{username}" placeholder="username"/>
+                    <input type="text" class="form-control" th:field="*{username}" placeholder="логин"/>
                     <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"> Ошибка! </span>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" th:field="*{password}" placeholder="password"/>
+                    <input type="password" class="form-control" th:field="*{password}" placeholder="пароль"/>
                     <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"> Ошибка! </span>
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" th:field="*{fullName}" placeholder="ФИО"/>
                     <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"> Ошибка! </span>
-
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" th:field="*{phone}" placeholder="телефон"/>
+                    <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"> Ошибка! </span>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Зарегистрировать</button>

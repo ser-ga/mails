@@ -45,7 +45,7 @@ public class MailEntity implements Serializable {
     private Integer mailNumber;
 
     @NotEmpty
-    @Size(min = 3, max = 100)
+    @Size(min = 3, max = 255)
     @Column(name = "recipient", nullable = false)
     private String mailRecipient;
 
@@ -54,7 +54,7 @@ public class MailEntity implements Serializable {
     private String mailSubject;
 
     @NotEmpty
-    @Column(name = "title", nullable = false, length = 100)
+    @Column(name = "title", nullable = false)
     private String mailTitle;
 
     @NotEmpty

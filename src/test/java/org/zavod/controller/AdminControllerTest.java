@@ -44,6 +44,7 @@ class AdminControllerTest extends AbstractControllerTest {
         params.add("username", NEW_USER.getUsername());
         params.add("password", NEW_USER.getPassword());
         params.add("fullName", NEW_USER.getFullName());
+        params.add("phone", NEW_USER.getPhone());
 
         mockMvc.perform(post("/admin").params(params))
                 .andExpect(status().isOk());

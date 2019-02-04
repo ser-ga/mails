@@ -5,10 +5,10 @@ FROM roles;
 DELETE
 FROM author;
 
-INSERT INTO author (active, full_name, password, username)
-VALUES (true, 'Global administrator', '{noop}passw', 'admin'),
-       (true, 'Office manager', '{noop}passw', 'mngr'),
-       (true, 'Employer', '{noop}passw', 'empl');
+INSERT INTO author (active, full_name, password, username, phone)
+VALUES (true, 'Global administrator', '{noop}passw', 'admin', '89001234567'),
+       (true, 'Office manager', '{noop}passw', 'mngr', '89001234567'),
+       (true, 'Employer', '{noop}passw', 'empl', '89001234567');
 
 INSERT INTO roles (author_id, role)
 VALUES (10000, 'ROLE_ADMIN'),

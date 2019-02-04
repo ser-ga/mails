@@ -11,6 +11,7 @@ function add() {
     form.find(":input").val("");
     $("#newMail").modal();
     createEditors();
+    setDatePicker();
 }
 
 function createEditors() {
@@ -53,7 +54,7 @@ function createEditors() {
             ],
             removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar',
             uiColor: '#9AB8F3',
-            height: 50
+            height: 150
         });
 }
 
@@ -238,6 +239,7 @@ function updateMail(id) {
         });
         $('#newMail').modal();
         createEditors();
+        setDatePicker();
     });
 }
 
@@ -312,5 +314,15 @@ function changeAuthor() {
         $("#authors").modal("hide");
         updateTable();
         successNoty("Письмо сохранено");
+    });
+}
+function setDatePicker() {
+    $.datetimepicker.setLocale('ru');
+    const mailDate = $('#createDate');
+    mailDate.datetimepicker({
+        timepicker: false,
+        format: 'Y-m-d',
+        formatDate: 'Y-m-d',
+        dayOfWeekStart: 1
     });
 }

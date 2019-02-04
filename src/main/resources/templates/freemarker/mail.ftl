@@ -6,14 +6,14 @@
 <table width="100%">
     <tbody>
     <tr>
-        <td width="50%" style="text-align: center;">
-            <img width="75" src="logo.png"/><br/>
-            <p style="font-size: 12px;">
+        <td width="70%" style="text-align: center;">
+            <img width="100" src="logo.png"/><br/>
+            <p style="font-size: 16px;">
                 ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО<br/>
-                <span style="font-size: 14px;">&laquo;БАЛАКИРЕВСКИЙ МЕХАНИЧЕСКИЙ ЗАВОД&raquo;</span><br/>
+                <span style="font-size: 18px;">&laquo;БАЛАКИРЕВСКИЙ МЕХАНИЧЕСКИЙ ЗАВОД&raquo;</span><br/>
             </p>
 
-            <p style="font-size: 12px;">
+            <p style="font-size: 14px;">
                 ИНН 3311001852, КПП 331101001<br/>
                 601630, Владимирская обл., Александровский р-н,<br/>
                 п. Балакирево, ул. Заводская, д.10<br/>
@@ -21,20 +21,20 @@
                 E-mail: oao-bmz@bk.ru<br/>
             </p>
 
-            <p style="font-size: 14px;">
+            <p style="font-size: 16px;">
                 Исх.№ ${mail.mailNumber} от ${mailDate}
             </p>
 
         </td>
-        <td width="50%" style="font-size: 14px; text-align: right;"><p>${mail.mailRecipient}</p></td>
+        <td width="30%" style="font-size: 18px;font-weight: bold;text-align: right;"><p>${mail.mailRecipient}</p></td>
     </tr>
     <tr>
-        <td colspan="2" style="font-size: 16px; font-weight: bold;text-align: center;padding-top: 25px;">
+        <td colspan="2" style="font-size: 16px;font-weight: bold;text-align: center;padding-top: 25px;">
             <p>${mail.mailTitle}</p>
         </td>
     </tr>
     <tr>
-        <td colspan="2" style="font-size: 14px;padding-top: 25px;text-indent: 35px;">
+        <td colspan="2" style="font-size: 16px;padding-top: 25px;text-indent: 35px;">
             <p>${mail.mailText}</p>
         </td>
     </tr>

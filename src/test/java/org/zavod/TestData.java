@@ -23,9 +23,9 @@ public class TestData {
     public static final String ADMIN_PASSWORD = "passw";
 
 
-    public static final AuthorEntity ADMIN = new AuthorEntity(GLOBAL_SEQ, "Global administrator", ADMIN_USERNAME, ADMIN_PASSWORD, true, Collections.singleton(Role.ROLE_ADMIN));
-    public static final AuthorEntity MNGR = new AuthorEntity(GLOBAL_SEQ + 1, "Office manager", "mngr", "passw", true, Collections.singleton(Role.ROLE_MANAGER));
-    public static final AuthorEntity EMPL = new AuthorEntity(GLOBAL_SEQ + 2, "Employer", "empl", "passw", true, Collections.singleton(Role.ROLE_USER));
+    public static final AuthorEntity ADMIN = new AuthorEntity(GLOBAL_SEQ, "Global administrator", ADMIN_USERNAME, ADMIN_PASSWORD, true, "89001234567", Collections.singleton(Role.ROLE_ADMIN));
+    public static final AuthorEntity MNGR = new AuthorEntity(GLOBAL_SEQ + 1, "Office manager", "mngr", "passw", true, "89001234567", Collections.singleton(Role.ROLE_MANAGER));
+    public static final AuthorEntity EMPL = new AuthorEntity(GLOBAL_SEQ + 2, "Employer", "empl", "passw", true, "89001234567", Collections.singleton(Role.ROLE_USER));
 
     public static final long MAIL_ENTITY_1_ID = GLOBAL_SEQ + 3;
     public static final long MAIL_ENTITY_2_ID = GLOBAL_SEQ + 4;
@@ -76,7 +76,7 @@ public class TestData {
             15,
             "recipient2",
             "subject4",
-            "text4",
+            "title4",
             "text4",
             true,
             1,
@@ -102,13 +102,13 @@ public class TestData {
     public static final long MAIL_ENTITY_6_ID = GLOBAL_SEQ + 8;
 
     public static MailEntity getNew() {
-        return new MailEntity(MAIL_ENTITY_6_ID, LocalDate.parse("2019-01-15"), null, 17, "recipient3", "subject6", "mailTitle", "mailText",false, 1, null);
+        return new MailEntity(MAIL_ENTITY_6_ID, LocalDate.parse("2019-01-15"), null, 17, "recipient3", "subject6", "mailTitle", "mailText", false, 1, null);
     }
 
-    public static final AuthorEntity NEW_USER = new AuthorEntity(null, "new User", "new", "passw", true, Collections.singleton(Role.ROLE_USER));
+    public static final AuthorEntity NEW_USER = new AuthorEntity(null, "new User", "new", "passw", true, "89001234567", Collections.singleton(Role.ROLE_USER));
 
     public static AuthorEntity getNewUser() {
-        return new AuthorEntity(NEW_USER.getId(), NEW_USER.getFullName(), NEW_USER.getUsername(), NEW_USER.getPassword(), NEW_USER.isActive(), NEW_USER.getRoles());
+        return new AuthorEntity(NEW_USER.getId(), NEW_USER.getFullName(), NEW_USER.getUsername(), NEW_USER.getPassword(), NEW_USER.isActive(), NEW_USER.getPhone(), NEW_USER.getRoles());
     }
 
     public static Gson getGson() {

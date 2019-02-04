@@ -15,7 +15,10 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import org.zavod.model.MailEntity;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -68,7 +71,7 @@ public class HtmlPdfReport implements IPdfReport<MailEntity> {
             // windows-1251 - times.ttf encoding for windows
             // UTF-8 - for linux
             XMLWorkerHelper.getInstance().parseXHtml(writer, document, new ByteArrayInputStream(htmlWriter.toString().getBytes()),
-                    null, Charset.forName("windows-1251"), xmlWorkerFontProvider, imagesPath.getFile().getAbsolutePath());
+                    null, Charset.forName("UTF-8"), xmlWorkerFontProvider, imagesPath.getFile().getAbsolutePath());
 
             document.close();
 
@@ -77,7 +80,7 @@ public class HtmlPdfReport implements IPdfReport<MailEntity> {
             PdfStamper pdfStamper = new PdfStamper(pdfReader, outPdf);
             PdfContentByte canvas = pdfStamper.getOverContent(1);
             BaseFont baseFont = BaseFont.createFont(font.getFile().getAbsolutePath(), "windows-1251", BaseFont.EMBEDDED);
-            ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Исполнитель: " + mail.getAuthor(), new Font(baseFont,10)), 50, 25, 0);
+            ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase("Исполнитель: " + mail.getAuthor() + " тел:" + mail.getAuthor().getPhone(), new Font(baseFont,10)), 50, 25, 0);
             pdfStamper.close();
             pdfReader.close();
             return outPdf.toByteArray();

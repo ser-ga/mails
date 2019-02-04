@@ -45,6 +45,9 @@ public class AuthorEntity implements Serializable {
     @Column(name = "active")
     private boolean active;
 
+    @Column(name = "phone")
+    private String phone;
+
     @JsonIgnore
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "author_id"))
