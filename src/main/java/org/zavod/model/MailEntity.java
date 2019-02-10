@@ -64,8 +64,9 @@ public class MailEntity implements Serializable {
     @Column(name = "accept", nullable = false)
     private boolean accept;
 
-    @Column(name = "version", nullable = false)
-    private int version = 1;
+    @Version
+    @Column(name = "version")
+    private Integer version;
 
     @SerializedName("author")
     @ManyToOne(fetch = FetchType.LAZY)

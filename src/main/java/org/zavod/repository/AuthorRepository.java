@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface AuthorRepository extends JpaRepository<AuthorEntity, Long> {
 
+    @EntityGraph(attributePaths = {"roles"}, type = EntityGraph.EntityGraphType.LOAD)
     AuthorEntity findAuthorByUsername(String username);
 
     @EntityGraph(attributePaths = {"roles"}, type = EntityGraph.EntityGraphType.LOAD)

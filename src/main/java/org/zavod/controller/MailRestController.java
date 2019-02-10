@@ -1,21 +1,16 @@
 package org.zavod.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.zavod.model.AuthorEntity;
+import org.zavod.AuthorizedUser;
 import org.zavod.model.MailEntity;
-import org.zavod.model.Role;
-import org.zavod.service.AuthorService;
 import org.zavod.service.MailService;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.zavod.controller.MailRestController.REST_URL;
@@ -29,12 +24,8 @@ public class MailRestController {
 
     private final MailService mailService;
 
-    private final AuthorService authorService;
-
-    @Autowired
-    public MailRestController(MailService mailService, AuthorService authorService) {
+    public MailRestController(MailService mailService) {
         this.mailService = mailService;
-        this.authorService = authorService;
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -48,16 +39,11 @@ public class MailRestController {
     }
 
     @PostMapping
-    public void save(@Validated MailEntity mailEntity, @AuthenticationPrincipal User user) {
-        AuthorEntity author = authorService.findByUsername(user.getUsername());
-        mailEntity.setAccept(false);
-        mailEntity.setUpdateDateTime(LocalDateTime.now());
+    public void save(@Validated MailEntity mailEntity, @AuthenticationPrincipal AuthorizedUser authUser) {
         if (mailEntity.getId() == null) {
-            mailEntity.setAuthor(author);
-            mailService.save(mailEntity);
+            mailService.save(mailEntity, authUser.getId());
         } else {
-            boolean isUser = author.getRoles().contains(Role.ROLE_USER);
-            mailService.update(mailEntity, author.getId(), isUser);
+            mailService.update(mailEntity, authUser);
         }
     }
 

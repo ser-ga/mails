@@ -1,20 +1,27 @@
 package org.zavod.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.zavod.AuthorizedUser;
 import org.zavod.model.AuthorEntity;
 import org.zavod.model.MailEntity;
 import org.zavod.repository.AuthorRepository;
 import org.zavod.repository.MailRepository;
+import org.zavod.util.exception.NotFoundException;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
+import static org.zavod.util.ValidationUtil.checkAccessUpdate;
 
 @Service
 public class MailServiceImpl implements MailService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(MailServiceImpl.class);
 
     @Autowired
     public MailRepository mailRepository;
@@ -30,8 +37,11 @@ public class MailServiceImpl implements MailService {
 
     @Override
     @CacheEvict(value = "mailCache", allEntries = true)
-    public void save(MailEntity newMail) {
-        mailRepository.save(newMail);
+    public void save(MailEntity mail, long authorId) {
+        AuthorEntity author = authorRepository.getOne(authorId);
+        mail.setAuthor(author);
+        mailRepository.save(mail);
+        LOG.info("Save new MailEntity, authorId={}", authorId);
     }
 
     @Override
@@ -40,37 +50,32 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    @Transactional
     @CacheEvict(value = "mailCache", allEntries = true)
-    public void update(MailEntity mail, long authorId, boolean isUser) {
-        MailEntity existing = mailRepository.getById(mail.getId());
-        if (existing != null) {
-            AuthorEntity author = existing.getAuthor();
-            if (isUser && (author.getId() != authorId || existing.isAccept())) {
-                throw new AccessDeniedException("Access Denied for USER");
-            }
-            mail.setVersion(existing.getVersion() + 1);
-            mail.setId(existing.getId());
-            mail.setAuthor(author);
-            mailRepository.save(mail);
-        }
+    public void update(MailEntity mail, AuthorizedUser authUser) {
+        MailEntity existing = mailRepository.findById(mail.getId()).orElseThrow(() -> new NotFoundException("Not found for update"));
+        checkAccessUpdate(existing, authUser);
+        mail.setAccept(false);
+        mail.setUpdateDateTime(LocalDateTime.now());
+        mail.setAuthor(existing.getAuthor());
+        mailRepository.save(mail);
+        LOG.info("Update MailEntity with id={}, authorId={}", mail.getId(), authUser.getId());
     }
 
     @Override
     @CacheEvict(value = "mailCache", allEntries = true)
     public void delete(Long id) {
         mailRepository.deleteById(id);
+        LOG.info("Delete MailEntity with id={}", id);
     }
 
     @Override
-    @Transactional
     @CacheEvict(value = "mailCache", allEntries = true)
     public void accept(Long id, boolean accept) {
-        MailEntity existing = mailRepository.findById(id).orElse(null);
-        if (existing != null) {
-            existing.setAccept(accept);
-            mailRepository.save(existing);
-        }
+        MailEntity existing = mailRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found for update"));
+        existing.setAccept(accept);
+        existing.setUpdateDateTime(LocalDateTime.now());
+        mailRepository.save(existing);
+        LOG.info("Accept status {} for MailEntity with id={}", accept, id);
     }
 
     @Override
@@ -78,6 +83,8 @@ public class MailServiceImpl implements MailService {
     public void changeAuthor(MailEntity mail, long authorId) {
         AuthorEntity authorEntity = authorRepository.getOne(authorId);
         mail.setAuthor(authorEntity);
+        mail.setUpdateDateTime(LocalDateTime.now());
         mailRepository.save(mail);
+        LOG.info("Change author for MailEntity with id={}", mail.getId());
     }
 }

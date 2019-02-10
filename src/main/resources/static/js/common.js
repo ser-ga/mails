@@ -80,6 +80,8 @@ function save() {
 function cancel() {
     editor1.destroy();
     editor1 = null;
+    editor2.destroy();
+    editor2 = null;
 }
 
 function updateTable() {
