@@ -102,7 +102,7 @@ public class TestData {
     public static final long MAIL_ENTITY_6_ID = GLOBAL_SEQ + 8;
 
     public static MailEntity getNew() {
-        return new MailEntity(MAIL_ENTITY_6_ID, LocalDate.parse("2019-01-15"), null, 17, "recipient3", "subject6", "mailTitle", "mailText", false, 1, null);
+        return new MailEntity(MAIL_ENTITY_6_ID, LocalDate.parse("2019-01-15"), null, 17, "recipient3", "subject6", "mailTitle", "mailText", false, 0, null);
     }
 
     public static final AuthorEntity NEW_USER = new AuthorEntity(null, "new User", "new", "passw", true, "89001234567", Collections.singleton(Role.ROLE_USER));

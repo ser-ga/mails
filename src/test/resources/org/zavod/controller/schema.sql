@@ -47,7 +47,7 @@ CREATE TABLE mail
   SUBJECT     VARCHAR(255)                 NOT NULL,
   TITLE       VARCHAR(255),
   TEXT        VARCHAR(2000)                NOT NULL,
-  UPDATE_DATE DATETIME DEFAULT now()       NOT NULL,
+  UPDATE_DATE DATETIME,
   VERSION     INT                          NOT NULL,
   AUTHOR_ID   BIGINT                       NOT NULL,
   FOREIGN KEY (AUTHOR_ID) REFERENCES author (ID)
