@@ -1,7 +1,6 @@
 package org.zavod.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -18,10 +17,9 @@ import java.util.List;
 
 import static org.zavod.util.ValidationUtil.checkAccessUpdate;
 
+@Slf4j
 @Service
 public class MailServiceImpl implements MailService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(MailServiceImpl.class);
 
     @Autowired
     public MailRepository mailRepository;
@@ -41,7 +39,7 @@ public class MailServiceImpl implements MailService {
         AuthorEntity author = authorRepository.getOne(authorId);
         mail.setAuthor(author);
         mailRepository.save(mail);
-        LOG.info("Save new MailEntity, authorId={}", authorId);
+        log.info("Save new MailEntity, authorId={}", authorId);
     }
 
     @Override
@@ -58,14 +56,14 @@ public class MailServiceImpl implements MailService {
         mail.setUpdateDateTime(LocalDateTime.now());
         mail.setAuthor(existing.getAuthor());
         mailRepository.save(mail);
-        LOG.info("Update MailEntity with id={}, authorId={}", mail.getId(), authUser.getId());
+        log.info("Update MailEntity with id={}, authorId={}", mail.getId(), authUser.getId());
     }
 
     @Override
     @CacheEvict(value = "mailCache", allEntries = true)
     public void delete(Long id) {
         mailRepository.deleteById(id);
-        LOG.info("Delete MailEntity with id={}", id);
+        log.info("Delete MailEntity with id={}", id);
     }
 
     @Override
@@ -75,7 +73,7 @@ public class MailServiceImpl implements MailService {
         existing.setAccept(accept);
         existing.setUpdateDateTime(LocalDateTime.now());
         mailRepository.save(existing);
-        LOG.info("Accept status {} for MailEntity with id={}", accept, id);
+        log.info("Accept status {} for MailEntity with id={}", accept, id);
     }
 
     @Override
@@ -85,6 +83,6 @@ public class MailServiceImpl implements MailService {
         mail.setAuthor(authorEntity);
         mail.setUpdateDateTime(LocalDateTime.now());
         mailRepository.save(mail);
-        LOG.info("Change author for MailEntity with id={}", mail.getId());
+        log.info("Change author for MailEntity with id={}", mail.getId());
     }
 }

@@ -1,7 +1,6 @@
 package org.zavod.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -15,12 +14,9 @@ import org.zavod.util.exception.NotFoundException;
 import java.util.Collections;
 import java.util.List;
 
-
+@Slf4j
 @Service
 public class AuthorServiceImpl implements AuthorService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(AuthorServiceImpl.class);
-
 
     @Autowired
     private AuthorRepository authorRepository;
@@ -46,7 +42,7 @@ public class AuthorServiceImpl implements AuthorService {
         author.setActive(true);
         author.setRoles(Collections.singleton(Role.ROLE_USER));
         AuthorEntity saved = authorRepository.save(author);
-        LOG.info("Create new AuthorEntity with id={}", saved.getId());
+        log.info("Create new AuthorEntity with id={}", saved.getId());
         return saved;
     }
 
@@ -54,7 +50,7 @@ public class AuthorServiceImpl implements AuthorService {
     @CacheEvict(value = "authorCache", allEntries = true)
     public void delete(long id) {
         authorRepository.deleteById(id);
-        LOG.info("Delete AuthorEntity with id={}", id);
+        log.info("Delete AuthorEntity with id={}", id);
     }
 
     @Override

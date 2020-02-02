@@ -20,9 +20,12 @@ import java.util.Set;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AuthorEntity implements Serializable {
 
+    public static final int GLOBAL_SEQ = 10_000;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @SequenceGenerator(name = "GLOBAL_SEQ", sequenceName = "GLOBAL_SEQ", initialValue = GLOBAL_SEQ, allocationSize = 1)
+    @Column(name = "ID", unique = true, nullable = false, columnDefinition = "bigint default GLOBAL_SEQ.nextval")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GLOBAL_SEQ")
     private Long id;
 
     @NotEmpty

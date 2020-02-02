@@ -1,5 +1,6 @@
 package org.zavod.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
+@Slf4j
 @Controller
 public class MyErrorController implements ErrorController {
 
@@ -17,7 +19,7 @@ public class MyErrorController implements ErrorController {
 
         if (status != null) {
             Integer statusCode = Integer.valueOf(status.toString());
-
+            log.error("Error with status code {}", statusCode);
             if(statusCode == HttpStatus.UNAUTHORIZED.value()) {
                 return "errors/error-401";
             }

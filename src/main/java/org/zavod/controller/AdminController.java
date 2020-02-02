@@ -1,6 +1,7 @@
 package org.zavod.controller;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Collections;
 
+@Slf4j
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -25,6 +27,7 @@ public class AdminController {
 
     @GetMapping
     public ModelAndView admin(AuthorEntity authorEntity) {
+        log.info("Request GET /admin by user '{}'", authorEntity);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("author", authorEntity);
         modelAndView.addObject("authors", authorService.findAll());
@@ -34,6 +37,7 @@ public class AdminController {
 
     @PostMapping
     public ModelAndView create(@Valid @ModelAttribute("authorEntity") AuthorEntity authorEntity, BindingResult bindingResult) {
+        log.info("Request POST /admin by user '{}'", authorEntity);
         ModelAndView modelAndView = new ModelAndView();
         AuthorEntity authorExists = authorService.findByUsername(authorEntity.getUsername());
         modelAndView.setViewName("admin");
@@ -57,8 +61,9 @@ public class AdminController {
     }
 
     @GetMapping("/{id}")
-    public String delete(@PathVariable("id") int id, @RequestParam("action") @NotNull String action) {
-        if(action.equals("delete")) authorService.delete(id);
+    public String delete(@PathVariable("id") int id, @RequestParam("action") @NotNull String action, AuthorEntity authorEntity) {
+        log.info("Request GET /admin/{} by user '{}'", id,  authorEntity);
+        if (action.equals("delete")) authorService.delete(id);
         return "redirect:/admin";
     }
 }

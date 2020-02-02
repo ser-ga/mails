@@ -1,11 +1,4 @@
-DELETE
-FROM mail;
-DELETE
-FROM roles;
-DELETE
-FROM author;
-
-INSERT INTO author (active, full_name, password, username, phone)
+INSERT INTO author ( active, full_name, password, username, phone)
 VALUES (true, 'Global administrator', '{noop}passw', 'admin', '89001234567'),
        (true, 'Office manager', '{noop}passw', 'mngr', '89001234567'),
        (true, 'Employer', '{noop}passw', 'empl', '89001234567');

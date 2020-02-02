@@ -17,6 +17,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static org.zavod.model.AuthorEntity.GLOBAL_SEQ;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,8 +30,9 @@ public class MailEntity implements Serializable {
 
     @SerializedName("id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @SequenceGenerator(name = "GLOBAL_SEQ", sequenceName = "GLOBAL_SEQ", initialValue = GLOBAL_SEQ, allocationSize = 1)
+    @Column(name = "ID", unique = true, nullable = false, columnDefinition = "bigint default GLOBAL_SEQ.nextval")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GLOBAL_SEQ")
     private Long id;
 
     @NotNull
