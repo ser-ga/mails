@@ -30,7 +30,7 @@ public class MailServiceImpl implements MailService {
     @Override
     @Cacheable("mailCache")
     public List<MailEntity> getAll() {
-        return mailRepository.getAll();
+        return mailRepository.findAll();
     }
 
     @Override
@@ -38,6 +38,8 @@ public class MailServiceImpl implements MailService {
     public void save(MailEntity mail, long authorId) {
         AuthorEntity author = authorRepository.getOne(authorId);
         mail.setAuthor(author);
+        mail.setCreateYear(mail.getCreateDate().getYear());
+        System.out.println(mail);
         mailRepository.save(mail);
         log.info("Save new MailEntity, authorId={}", authorId);
     }

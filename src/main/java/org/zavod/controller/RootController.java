@@ -65,6 +65,7 @@ public class RootController {
         modelAndView.addObject("authUser", user);
         modelAndView.addObject("fullName", currentAuthor.getFullName());
         modelAndView.addObject("authorId", currentAuthor.getId());
+        modelAndView.addObject("signatories", authorService.findSignatories());
         modelAndView.setViewName("home");
         modelAndView.addObject("date", LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
         return modelAndView;

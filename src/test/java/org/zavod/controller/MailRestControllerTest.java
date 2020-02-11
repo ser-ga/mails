@@ -57,7 +57,7 @@ class MailRestControllerTest extends AbstractControllerTest {
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(result -> assertMatch(gson.fromJson(result.getResponse().getContentAsString(), MailEntity.class), MAIL_ENTITY_4, "author"))
+                .andExpect(result -> assertMatch(gson.fromJson(result.getResponse().getContentAsString(), MailEntity.class), MAIL_ENTITY_4, "author", "signatory"))
                 .andDo(print());
 
     }
@@ -72,6 +72,7 @@ class MailRestControllerTest extends AbstractControllerTest {
         params.add("mailSubject", "subject6");
         params.add("mailTitle", "mailTitle");
         params.add("mailText", "mailText");
+        params.add("signatory", "10001");
 
         mockMvc.perform(post(REST_URL).params(params)
                 .with(httpBasic(ADMIN_USERNAME, ADMIN_PASSWORD)))
@@ -80,7 +81,7 @@ class MailRestControllerTest extends AbstractControllerTest {
         MailEntity expected = getNew();
         expected.setId(MAIL_ENTITY_6_ID);
         MailEntity actual = mailService.findById(MAIL_ENTITY_6_ID);
-        assertMatch(actual, expected, "updateDateTime","author");
+        assertMatch(actual, expected, "updateDateTime","author", "signatory");
 
     }
 

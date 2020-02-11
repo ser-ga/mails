@@ -15,8 +15,8 @@ CREATE TABLE author
   USERNAME   VARCHAR(255)            NOT NULL,
   PASSWORD   VARCHAR(255)            NOT NULL,
   PHONE      VARCHAR(255)            NOT NULL,
-  REGISTERED TIMESTAMP DEFAULT now() NOT NULL
-
+  REGISTERED TIMESTAMP DEFAULT now() NOT NULL,
+  SIGNATORY BOOLEAN DEFAULT FALSE NOT NULL
 );
 CREATE UNIQUE INDEX username_idx
   ON author (USERNAME);
@@ -35,6 +35,7 @@ CREATE TABLE mail
   ID          bigint default GLOBAL_SEQ.nextval primary key,
   ACCEPT      BOOLEAN DEFAULT FALSE        NOT NULL,
   CREATE_DATE DATE                         NOT NULL,
+  CREATE_YEAR INT                         NOT NULL,
   NUMBER      INT                          NOT NULL,
   RECIPIENT   VARCHAR(255)                 NOT NULL,
   SUBJECT     VARCHAR(255)                 NOT NULL,
@@ -43,8 +44,9 @@ CREATE TABLE mail
   UPDATE_DATE DATETIME,
   VERSION     INT                          NOT NULL,
   AUTHOR_ID   BIGINT                       NOT NULL,
+  SIGNATORY_ID   BIGINT                       NOT NULL,
   FOREIGN KEY (AUTHOR_ID) REFERENCES author (ID)
     ON DELETE NO ACTION
 );
 CREATE UNIQUE INDEX mail_idx
-  ON mail (NUMBER);
+  ON mail (CREATE_YEAR, NUMBER);

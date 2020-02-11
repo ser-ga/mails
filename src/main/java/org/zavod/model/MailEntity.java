@@ -40,6 +40,9 @@ public class MailEntity implements Serializable {
     @Column(name = "create_date", nullable = false)
     private LocalDate createDate;
 
+    @Column(name = "create_year", nullable = false)
+    private Integer createYear;
+
     @Column(name = "update_date", nullable = false)
     private LocalDateTime updateDateTime;
 
@@ -76,4 +79,11 @@ public class MailEntity implements Serializable {
     @JoinColumn(name = "author_id", nullable = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private AuthorEntity author;
+
+    @SerializedName("signatory")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "signatory_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    private AuthorEntity signatory;
+
 }

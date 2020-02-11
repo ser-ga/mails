@@ -14,6 +14,9 @@ public interface AuthorRepository extends JpaRepository<AuthorEntity, Long> {
     @EntityGraph(attributePaths = {"roles"}, type = EntityGraph.EntityGraphType.LOAD)
     List<AuthorEntity> getAllByOrderByIdAsc();
 
+    @EntityGraph(attributePaths = {"roles"}, type = EntityGraph.EntityGraphType.LOAD)
+    List<AuthorEntity> getAllBySignatoryIsTrue();
+
     @Override
     void deleteById(Long aLong);
 

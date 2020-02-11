@@ -58,4 +58,8 @@ public class AuthorServiceImpl implements AuthorService {
         return authorRepository.findAuthorByUsername(username);
     }
 
+    @Override
+    public List<AuthorEntity> findSignatories() {
+        return authorRepository.getAllBySignatoryIsTrue();
+    }
 }

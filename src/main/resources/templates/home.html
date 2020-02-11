@@ -103,6 +103,13 @@
                         <textarea rows="3" class="form-control form-control-sm" id="mailText"
                                   placeholder="Текст письма" name="mailText"></textarea>
                     </div>
+                    <div class="form-group">
+                        <label class="col-form-label-sm" >Директор</label>
+
+                        <select name="signatory" th:each="author : ${signatories}">
+                            <option selected th:value="${author.id}" th:text="${author.getFullName()}"></option>
+                        </select>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">

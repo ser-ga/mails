@@ -8,6 +8,8 @@ public interface AuthorService {
 
     List<AuthorEntity> findAll();
 
+    List<AuthorEntity> findSignatories();
+
     AuthorEntity findById(Long id);
 
     AuthorEntity save(AuthorEntity author);
