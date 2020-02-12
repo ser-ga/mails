@@ -43,7 +43,7 @@
             <p>И.О. Генерального директора<br/>ОАО "БМЗ"</p>
         </td>
         <td style="font-size: 16px;padding-top: 50px;padding-right: 25px;font-weight: bold;text-align: right;">
-            <p>Охлопков Р.С.</p>
+            <p>${mail.signatory.fullName}</p>
         </td>
     </tr>
     </tbody>

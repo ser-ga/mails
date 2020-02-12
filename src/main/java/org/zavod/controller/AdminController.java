@@ -3,6 +3,7 @@ package org.zavod.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,6 +14,7 @@ import org.zavod.service.AuthorService;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Collections;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -64,6 +66,17 @@ public class AdminController {
     public String delete(@PathVariable("id") int id, @RequestParam("action") @NotNull String action, AuthorEntity authorEntity) {
         log.info("Request GET /admin/{} by user '{}'", id,  authorEntity);
         if (action.equals("delete")) authorService.delete(id);
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/signatory")
+    public String signatory( @RequestBody MultiValueMap<String, String> params) {
+        Map<String, String> map = params.toSingleValueMap();
+        String signatory = map.get("signatory");
+        if (signatory == null) {
+            throw new RuntimeException("Invalid parameter 'signatory'");
+        }
+        authorService.setSignatory(Long.parseLong(signatory));
         return "redirect:/admin";
     }
 }

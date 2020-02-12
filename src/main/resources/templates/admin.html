@@ -15,30 +15,38 @@
         <div class="col">
             <h3>Пользователи</h3>
             <div class="table table-responsive-sm table-hover">
-                <table class="table">
-                    <thead class="thead">
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">ФИО</th>
-                        <th scope="col">Имя пользователя</th>
-                        <th scope="col">Телефон</th>
-                        <th scope="col">Роли</th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="author : ${authors}">
-                        <td th:text="${author.id}"></td>
-                        <td th:text="${author.fullName}"></td>
-                        <td th:text="${author.username}"></td>
-                        <td th:text="${author.phone}"></td>
-                        <td th:each="role : ${author.roles}">
-                            <span th:text=" ${role} "></span>
-                        </td>
-                        <td><a th:href="@{admin/{id}(id=${author.id},action='delete')}"><span class='fa fa-remove'></span></a></td>
-                    </tr>
-                    </tbody>
-                </table>
+                <form action="#" th:action="@{/admin/signatory}" method="post" >
+                    <table class="table">
+                        <thead class="thead">
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">ФИО</th>
+                            <th scope="col">Имя пользователя</th>
+                            <th scope="col">Телефон</th>
+                            <th scope="col">Роли</th>
+                            <th scope="col">Подписант</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="author : ${authors}">
+                            <td th:text="${author.id}"></td>
+                            <td th:text="${author.fullName}"></td>
+                            <td th:text="${author.username}"></td>
+                            <td th:text="${author.phone}"></td>
+                            <td th:each="role : ${author.roles}">
+                                <span th:text=" ${role} "></span>
+                            </td>
+                            <td>
+                                <input name="signatory" type="radio" th:value="${author.id}" th:checked="${author.signatory}">
+                            </td>
+                            <td><a th:href="@{admin/{id}(id=${author.id},action='delete')}"><span
+                                    class='fa fa-remove'></span></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button type="submit" class="btn btn-primary">Применить</button>
+                </form>
             </div>
         </div>
         <div class="col">

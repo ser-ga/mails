@@ -18,4 +18,6 @@ public interface AuthorService {
 
     AuthorEntity findByUsername(String username);
 
+    void setSignatory(Long id);
+
 }

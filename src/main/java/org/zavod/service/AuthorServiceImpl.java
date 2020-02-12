@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.zavod.model.AuthorEntity;
 import org.zavod.model.Role;
 import org.zavod.repository.AuthorRepository;
@@ -61,5 +62,18 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public List<AuthorEntity> findSignatories() {
         return authorRepository.getAllBySignatoryIsTrue();
+    }
+
+    @CacheEvict(value = "authorCache", allEntries = true)
+    @Transactional
+    @Override
+    public void setSignatory(Long id) {
+        List<AuthorEntity> signatories = authorRepository.getAllBySignatoryIsTrue();
+        signatories.forEach(s -> s.setSignatory(false));
+        authorRepository.saveAll(signatories);
+        AuthorEntity candidate = authorRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Not found signatory candidate by id=" + id));
+        candidate.setSignatory(true);
+        authorRepository.save(candidate);
     }
 }
