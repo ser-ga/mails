@@ -40,7 +40,7 @@ CREATE TABLE mail
   RECIPIENT   VARCHAR(255)                 NOT NULL,
   SUBJECT     VARCHAR(255)                 NOT NULL,
   TITLE       VARCHAR(255),
-  TEXT        VARCHAR(2000)                NOT NULL,
+  TEXT        text                         NOT NULL,
   UPDATE_DATE DATETIME,
   VERSION     INT                          NOT NULL,
   AUTHOR_ID   BIGINT                       NOT NULL,
